@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="patch-workshop",
+    name="patch_workshop",
     version="0.0.2",
     author="Jan Bachmann",
     author_email="bachmann@csh.ac.at",
@@ -18,7 +18,6 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "./"},
     packages=setuptools.find_packages(where="patch_workshop"),
     python_requires=">=3.9",
 )
