@@ -46,9 +46,14 @@ We explain the code structure by the folder structure
 
 ### notebooks
 Contains useful notebooks that create the plots shown in the presentation and highlight how to create networks using `PATCH`.
+You can run a local jupyter serve by running ```jupyter notebook``` in your terminal and the open the presented weblink in your browser to run the notebooks (see [documentation](https://docs.jupyter.org/en/latest/) for details).
 
 ### patch_workshop
 This folder has general functions that simplify the interaction with the created data and the [NetIn package](https://cshvienna.github.io/NetworkInequalities/).
+They can be imported in an arbirtrary Python script as (see [notebooks](#notebooks) for examples):
+```python
+from patch_workshop.utils import create_graph
+```
 
 ### scripts
 Contains Python scripts to simulate many networks, as well as code to compute and translate the aggregate statistics required to produces the presented plots.
@@ -60,3 +65,6 @@ Users who want to create networks beyond the definition of `PATCH` presented her
 
 As this is work in progress, we are working with a preliminary version of [NetIn](https://github.com/CSHVienna/NetworkInequalities/tree/erpatch).
 Similar to the present repository (see the version of `netin` in [`requirements.txt`](requirements.txt)), one needs to install a specific version to have access to `PATCH`.
+
+## Contact
+In case of questions or bugs, open an issue in [github](https://github.com/mannbach/2024_visualizing_complexity_patch/issues) or contact me directly at `bachmann \at csh.ac.at`.
