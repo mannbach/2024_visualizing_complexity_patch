@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="patch-workshop",
-    version="0.0.1",
+    version="0.0.2",
     author="Jan Bachmann",
     author_email="bachmann@csh.ac.at",
     description=("[P]referential [A]ttachment [T]riadic [C]losure and [H]omophily."),
