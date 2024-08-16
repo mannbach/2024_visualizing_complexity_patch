@@ -19,6 +19,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     package_dir={"": "./"},
-    packages=setuptools.find_packages(where="patch-workshop"),
+    packages=setuptools.find_packages(where="patch_workshop"),
     python_requires=">=3.9",
 )
