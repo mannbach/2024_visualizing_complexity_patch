@@ -63,7 +63,7 @@ nbclient==0.10.0
 nbconvert==7.16.4
 nbformat==5.10.4
 nest-asyncio==1.6.0
-netin==1.0.7
+netin @ git+https://github.com/CSHVienna/NetworkInequalities.git@0e954d7231794e63ee3780742c48e6e46e1294ec
 networkx==3.2.1
 notebook==7.2.1
 notebook_shim==0.2.4
