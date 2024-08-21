@@ -5,7 +5,7 @@ from netin.utils.constants import ERPATCH_MODEL_NAME
 from patch_workshop.constants import MAP_MODEL_NAME_TO_GLOBAL
 
 FILE_IN = "data/aggregate_statistics.csv"
-FILE_OUT = "data/aggregate_statistics_vis_test.csv"
+FILE_OUT = "data/aggregate_statistics_vis.csv"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Transform aggregate statistics")
