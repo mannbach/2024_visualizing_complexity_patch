@@ -75,7 +75,10 @@ def work(queue_tasks: Queue, queue_results: Queue):
         elif model_name == ERPATCH_MODEL_NAME:
             Model = ERPATCH
 
-        graph = Model(n=N, f_m=f, k=M, h_mm=h, h_MM=h, tc=tc, tc_uniform=tcu)
+        graph = Model(
+            n=N, f_m=f, k=M,
+            h_mm=h, h_MM=h,
+            tc=tc, tc_uniform=tcu)
         graph.generate()
 
         nodes_min = set(n for n, d in graph.nodes(data=True) if d[CLASS_ATTRIBUTE] == MINORITY_VALUE)
