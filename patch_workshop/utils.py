@@ -23,7 +23,7 @@ def create_graph(
     model.generate()
     return model
 
-def translate_model_to_local_global(
+def translate_model_to_global_local(
         tcu: bool,
         model_name: str) -> Tuple[str, str]:
     """Translate the model name and the triadic closure uniformity to the local/global terminology."""
@@ -41,3 +41,42 @@ def translate_local_global_to_model(
     model_name = MAP_GLOBAL_TO_MODEL_NAME[lfm_global]
     tcu = lfm_local == LFM_RANDOM
     return tcu, model_name
+
+def create_file_name(
+        N: int,
+        m: int,
+        minority_fraction: float,
+        homophily: float,
+        triadic_closure: float,
+        lfm_local: str,
+        lfm_global: str,
+        realization: int,
+        prefix: str = "",
+        suffix: str = "",
+        file_ending: str = ".json") -> str:
+    """Creates and returns a filename string describing the configuration given by the parameters.
+    This is useful for centralizing I/O operations under a unified terminology.
+
+    Args:
+        N (int): Number of nodes
+        m (int): Number of new edges per node
+        minority_fraction (float): Minority fraction f in the network
+        preferential_attachment (bool): Specify whether preferential attachment is activated,
+        homophily (float): Homophily h
+        triadic_closure (float): Probability to draw triadic closure edges
+        tc_uniform (bool): Whether TC candidates are chosen uniform at random
+        realization (int): Simulation realization
+        prefix (str, optional): Set if a prefix should be added to the string. Defaults to "".
+        suffix (str, optional): Set if a suffix should be added to the string. Defaults to "".
+        file_ending (str, optional): The file ending. Defaults to ".json".
+
+    Returns:
+        str: The filename string.
+    """
+    return (
+        f"{prefix}"
+        f"N-{N}_m-{m}_f-{minority_fraction}_"
+        f"h-{homophily}_tc-{triadic_closure}_"
+        f"lfm-l-{lfm_local}_lfm-g-{lfm_global}_"
+        f"r-{realization}{suffix}{file_ending}"
+    )
