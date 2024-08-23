@@ -10,6 +10,32 @@ def create_graph(
         h: float, tc: float,
         lfm_global: str, lfm_local: str,
         seed: Optional[int]=None) -> Graph:
+    """Generates a single graph based on the given parameters.
+
+    Parameters
+    ----------
+    N : int
+        Number of nodes
+    m : int
+        Number of new edges per node
+    f_m : float
+        Fraction of minority nodes
+    h : float
+        Homophily
+    tc : float
+        The triadic closure probability
+    lfm_global : str
+        The global link formation mechanism
+    lfm_local : str
+        The local link formation mechanism
+    seed : Optional[int], optional
+        The random seed, by default None
+
+    Returns
+    -------
+    Graph
+        A simulated graph object
+    """
     tcu, model_name = translate_local_global_to_model(
         lfm_global=lfm_global, lfm_local=lfm_local)
 
@@ -35,6 +61,7 @@ def translate_model_to_global_local(
 
 def translate_local_global_to_model(
         lfm_local: str, lfm_global: str) -> Tuple[bool, str]:
+    """Translate the local and global terminology to the model name and the triadic closure uniformity."""
     assert lfm_local in (LFM_RANDOM, lfm_global),\
         f"Local must be `{LFM_RANDOM}` or the same as global=`{lfm_global}`."
 
@@ -61,10 +88,10 @@ def create_file_name(
         N (int): Number of nodes
         m (int): Number of new edges per node
         minority_fraction (float): Minority fraction f in the network
-        preferential_attachment (bool): Specify whether preferential attachment is activated,
         homophily (float): Homophily h
         triadic_closure (float): Probability to draw triadic closure edges
-        tc_uniform (bool): Whether TC candidates are chosen uniform at random
+        lfm_global (str): Global link formation mechanism
+        lfm_local (str): Local link formation mechanism
         realization (int): Simulation realization
         prefix (str, optional): Set if a prefix should be added to the string. Defaults to "".
         suffix (str, optional): Set if a suffix should be added to the string. Defaults to "".
