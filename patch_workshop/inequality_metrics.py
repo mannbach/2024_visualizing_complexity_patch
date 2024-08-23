@@ -4,15 +4,51 @@ from scipy import stats
 import numpy as np
 import networkx as nx
 
-def CL_delta_groups_1v1(x_lst):
+def compute_stoch_dom(net: nx.Graph, minority_nodes: Set[int]) -> float:
+    """Compute the stochastic dominance of the minority group in the network.
+
+    Parameters
+    ----------
+    net : nx.Graph
+        The simulated network.
+    minority_nodes : Set[int]
+        Set of minority nodes.
+
+    Returns
+    -------
+    float
+        The stochastic dominance of the minority group.
+        Values close to 1 indicate that the minority group has
+        higher degrees than the majority group.
+        Values close to 0 indicate the opposite.
     """
-    Pairwise differences
+    k_min, k_maj = _get_degree_arrays(net, minority_nodes)
+    s_dom = CL_delta_groups_1vRest([k_min, k_maj])
+    return s_dom[0]
+
+def compute_gini(net: nx.Graph) -> float:
+    """Computes the Gini coefficient of the degree distribution of the network.
+
+    Parameters
+    ----------
+    net : nx.Graph
+        The simulated network.
+
+    Returns
+    -------
+    float
+        The gini coefficient of the degree distribution.
+        Values close to 0 indicate a more equal distribution of degrees.
+        Values close to 1 indicate a more unequal distribution of degrees.
     """
-    CL_delta_ij = np.zeros((len(x_lst), len(x_lst))) + np.nan
-    for i, xi in enumerate(x_lst):
-        for j, xj in enumerate(x_lst):
-            CL_delta_ij[i,j] = common_language_delta(xi,xj)
-    return CL_delta_ij
+    l_k = np.asarray([deg for _, deg in net.degree()])
+    # The rest of the code requires numpy arrays.
+
+    sorted_x = np.sort(l_k)
+    n = len(l_k)
+    cumx = np.cumsum(sorted_x, dtype=float)
+    # The above formula, with all weights equal to 1 simplifies to:
+    return (n + 1 - 2 * np.sum(cumx) / cumx[-1]) / n
 
 def CL_delta_groups_1vRest(x_lst):
     """
@@ -69,44 +105,6 @@ def common_language_A12(x,y):
     A12 = (R1/m - (m+1)/2)/n
     return A12
 
-#############################################################################
-#############################################################################
-## TESTS
-#############################################################################
-#############################################################################
-
-#############################################################################
-## A12
-#############################################################################
-
-def test_A12_p106_VarDel(size1=1000,size2=200):
-    x_dom = [1,2,3]
-    x1_p = [.1,.6,.3]
-    x2_p = [.3,.6,.1]
-
-    smpl1 = np.random.choice(x_dom,p=x1_p,size=size1)
-    smpl2 = np.random.choice(x_dom,p=x2_p,size=size2)
-
-    print("Should be ~.66: ", common_language_A12(smpl1,smpl2))
-    print("Should be ~.32: ", common_language_delta(smpl1,smpl2))
-
-def test_A12_p106_VarDel_randomized(size1=1000,size2=200):
-    x_dom = [1,2,3]
-    x1_p = np.random.random(size=3)
-    x1_p = x1_p / np.sum(x1_p)
-    x2_p = np.random.random(size=3)
-    x2_p = x2_p / np.sum(x2_p)
-
-    smpl1 = np.random.choice(x_dom,p=x1_p,size=size1)
-    smpl2 = np.random.choice(x_dom,p=x2_p,size=size2)
-
-    p_gr = x1_p[1]*x2_p[0] + x1_p[2]*x2_p[0] + x1_p[2]*x2_p[1]
-    p_less = x2_p[1]*x1_p[0] + x2_p[2]*x1_p[0] + x2_p[2]*x1_p[1]
-    p_eq = x2_p[0]*x1_p[0] + x2_p[1]*x1_p[1] + x2_p[2]*x1_p[2]
-
-    print(f"Should be ~{p_gr+0.5*p_eq:.03f}: ", common_language_A12(smpl1,smpl2))
-    print(f"Should be ~{p_gr-p_less:.03f}: ", common_language_delta(smpl1,smpl2))
-
 def _get_degree_arrays(net: nx.Graph, minority_nodes: Set[int]) -> Tuple[np.ndarray, np.ndarray]:
     k_min, k_maj = [], []
     for node, deg in net.degree():
@@ -115,18 +113,3 @@ def _get_degree_arrays(net: nx.Graph, minority_nodes: Set[int]) -> Tuple[np.ndar
         else:
             k_maj.append(deg)
     return (np.asarray(l_k) for l_k in (k_min, k_maj))
-
-def compute_stoch_dom(net: nx.Graph, minority_nodes: Set[int]) -> float:
-    k_min, k_maj = _get_degree_arrays(net, minority_nodes)
-    s_dom = CL_delta_groups_1vRest([k_min, k_maj])
-    return s_dom[0]
-
-def compute_gini(net: nx.Graph):
-    l_k = np.asarray([deg for _, deg in net.degree()])
-    # The rest of the code requires numpy arrays.
-
-    sorted_x = np.sort(l_k)
-    n = len(l_k)
-    cumx = np.cumsum(sorted_x, dtype=float)
-    # The above formula, with all weights equal to 1 simplifies to:
-    return (n + 1 - 2 * np.sum(cumx) / cumx[-1]) / n
