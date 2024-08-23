@@ -87,12 +87,12 @@ The structure of each JSON file is explained by the example of `data/graphs/N-20
         "tc_uniform": false, // Legacy attribute, replaced by LFMs
     },
     "nodes": [ // List of nodes with minority status
-        // Nodes with id "id" and minority status "m"
-        {"m": 0, "id": 0}, ...
+        // Nodes with id "id" and minority status "m", e.g.:
+        {"m": 0, "id": 0}
     ],
     "links": [ // List of link objects
-        // Each object contains the two node IDs of the link
-        {"source": 0, "target": 1}, ...
+        // Each object contains the two node IDs of the link, e.g.:
+        {"source": 0, "target": 1}
     ]
 }
 ```
