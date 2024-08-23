@@ -10,15 +10,13 @@ import json
 import numpy as np
 import networkx as nx
 
-from netin import PATCH, TCH, ERPATCH
 from netin.utils.constants import\
-    PATCH_MODEL_NAME, ERPATCH_MODEL_NAME, TCH_MODEL_NAME,\
     CLASS_ATTRIBUTE, MINORITY_VALUE
 
 from patch_workshop.inequality_metrics import\
     compute_gini, compute_stoch_dom
 from patch_workshop.homophily_metrics import compute_ei_index
-from patch_workshop.utils import create_file_name, translate_local_global_to_model
+from patch_workshop.utils import create_file_name, create_graph
 from patch_workshop.constants import LFM_RANDOM, LFM_HOMOPHILY, LFM_PAH
 
 # Constants
@@ -108,23 +106,12 @@ def work(queue_tasks: Queue, queue_results: Queue):
 
         print(f"Working on {task} ({i})")
 
-        # Translate the local and global link formation mechanisms to the model name and tc uniformity
-        tcu, model_name = translate_local_global_to_model(
-            lfm_local=lfm_l, lfm_global=lfm_g
+        # Generate the graph
+        graph = create_graph(
+            N=n, m=m, f_m=f,
+            h=h, tc=tc,
+            lfm_global=lfm_g, lfm_local=lfm_l
         )
-
-        Model = PATCH
-        if model_name == TCH_MODEL_NAME:
-            Model = TCH
-        elif model_name == ERPATCH_MODEL_NAME:
-            Model = ERPATCH
-
-        # Simulate the graph
-        graph = Model(
-            n=n, f_m=f, k=m,
-            h_mm=h, h_MM=h,
-            tc=tc, tc_uniform=tcu)
-        graph.generate()
 
         # If graphs should be stored, convert the graph to a json string
         json_str = None
