@@ -144,7 +144,7 @@ def work(queue_tasks: Queue, queue_results: Queue):
             n for n, d in graph.nodes(data=True) if d[CLASS_ATTRIBUTE] == MINORITY_VALUE)
 
         # Compute the aggregate statistics
-        stats = (StatsResult(
+        stats = StatsResult(
             f=f, h=h, tc=tc,
             lfm_global=lfm_g, lfm_local=lfm_l,
             r=r,
@@ -154,7 +154,7 @@ def work(queue_tasks: Queue, queue_results: Queue):
         )
 
         # Put stats and JSON string into results queue
-        queue_results.put(stats, json_str))
+        queue_results.put((stats, json_str))
 
 def main():
     """Creates all requested parameter combinations and processes them in parallel.
