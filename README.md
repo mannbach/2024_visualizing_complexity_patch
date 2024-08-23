@@ -5,7 +5,7 @@ This is an interface that simplifies the interaction with the [NetIn software pa
 
 ## Requirements
 To run the code in this repository, install the packages in `requirements.txt`.
-It is advisable to create a virtual environment to not interfere with other package installations.
+It is advisable to create a virtual environment to not interfere with other local python installations.
 For instance, you can setup a virtual environment using [Conda](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html) as follows:
 ```bash
 conda create --name patch
@@ -21,32 +21,32 @@ python -c "import patch_workshop; print(patch_workshop.__version__)"
 ```
 should terminate without an error and print the local package version.
 
-## Folder structure
-We explain the code structure by the folder structure
+## The project
+We explain the code structure by the folder tree
 ```
 ├── README.md  # this file
 ├── data  # folder containing data
 │   └── graphs  # folder containing raw graphs if present
 ├── notebooks  # jupyter notebooks
 │   └── plot_line_plots.ipynb  # create line plots of presentation
+│   └── visualize_graph.ipynb  # creates or loads and visualizes a graph
 ├── patch_workshop  # local project containing helper functions
-│   ├── __init__.py
 │   ├── constants.py  # constant strings and values
 │   ├── homophily_metrics.py  # function to compute EI index
 │   ├── inequality_metrics.py  # inequality metrics
-│   ├── stats.py
-│   └── utils.py  # helpful functions
+│   ├── stats.py # function to compute CDFs
+│   └── utils.py  # helpful functions to load/store and create graphs
 ├── plots  # folder that contains output plots
 ├── requirements.txt  # software packages
 ├── scripts  # scripts to compute and transform aggregate statistics
-│   ├── generate_aggregate_statistics.py
+│   ├── generate_graphs_and_statistics.py # creates graphs and its statistics
 │   └── transform_aggregate_statistics.py
 └── setup.py
 ```
 
 ### notebooks
 Contains useful notebooks that create the plots shown in the presentation and highlight how to create networks using `PATCH`.
-You can run a local jupyter serve by running ```jupyter notebook``` in your terminal and the open the presented weblink in your browser to run the notebooks (see [documentation](https://docs.jupyter.org/en/latest/) for details).
+You can run a local jupyter server by running ```jupyter notebook``` in your terminal and the open the presented weblink in your browser to run the notebooks (see [documentation](https://docs.jupyter.org/en/latest/) for details).
 
 ### patch_workshop
 This folder has general functions that simplify the interaction with the created data and the [NetIn package](https://cshvienna.github.io/NetworkInequalities/).
@@ -58,6 +58,7 @@ from patch_workshop.utils import create_graph
 ### scripts
 Contains Python scripts to simulate many networks, as well as code to compute and translate the aggregate statistics required to produces the presented plots.
 The aggregated statistics will also be provided as a `.csv`-file to the participants of the workshop.
+A small subset of 30 simulated networks will also be provided.
 
 ## Advanced usage
 The scripts in the `scripts/`-folder show how the graphs are created internally.
